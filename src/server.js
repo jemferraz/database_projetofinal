@@ -6,6 +6,7 @@ const Post= require('./models/Post');
 const Category = require('./models/Category');
 const Author = require('./models/Author');
 const Tag = require('./models/Tag');
+const PostTag = require('./models/PostTag')
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.post('/category/add', (req, res) => {
   }).then(() => {
     res.status(200).json({status: 'ok'})
   }).catch((error) => {
-    res.status(500).json({error: error})
+    res.status(500).json({status: `Error adding category: ${error}.`})
   })
 });
 
@@ -40,7 +41,7 @@ app.post('/tag/add', (req, res) => {
   }).then(() => {
     res.status(200).json({status: 'ok'})
   }).catch((error) => {
-    res.status(500).json({error: error})
+    res.status(500).json({status: `Error adding tag: ${error}.`})
   })
 });
 
@@ -56,9 +57,26 @@ app.post('/author/add', (req, res) => {
   }).then(() => {
     res.status(200).json({status: 'ok'})
   }).catch((error) => {
-    res.status(500).json({error: error})
+    res.status(500).json({status: `Error adding author: ${error}.`})
   })
 });
+
+/** Route : Add post x tag */
+app.post('/post_tag/add', (req, res) => {
+  //Get data from body
+  const {postId, tagId} = req.body;
+
+  PostTag.create({
+    postId: postId,
+    tagId: tagId,
+  }).then(() => {
+    res.status(200).json({status: 'ok'})
+  }).catch((error) => {
+    res.status(500).json({status: `Error adding post_tag: ${error}.`})
+  })
+});
+
+/** Route : Add post x tag */
 
 
 /* ROTA 1: Obter dados de todos os posts */
